@@ -78,5 +78,42 @@ $(document).ready(doSearch);
 
 </ul>
 </confmenu></header>
-<div class='container'><nav><ul id='css3menu1' class='topmenu'><div class="tipue_search_group"><input style="width: 6vw;" type="text" name="q" id="tipue_search_input" pattern=".{2,}" title="Press enter key to search" required></div><li><a href='Onshape 協同繪製.html'>Onshape 協同繪製</a><ul><li><a href='手足球台設計.html'>手足球台設計</a><li><a href='送球機構設計.html'>送球機構設計</a></li></ul><li><a href='V-rep 動態模擬.html'>V-rep 動態模擬</a><ul><li><a href='送球機構模擬.html'>送球機構模擬</a><li><a href='V-rep 程式.html'>V-rep 程式</a><ul><li><a href='送球機構.html'>送球機構</a><li><a href='人對人.html'>人對人</a></li></ul><li><a href='系統功能展示.html'>系統功能展示</a></li></ul><li><a href='期末報告.html'>期末報告</a></li></ul></nav><section><div id="tipue_search_content">送球機構設計 << <a href='送球機構設計.html'>Previous</a> <a href='送球機構模擬.html'>Next</a> >> 送球機構模擬<br /><h1>V-rep 動態模擬</h1>
-<br />送球機構設計 << <a href='送球機構設計.html'>Previous</a> <a href='送球機構模擬.html'>Next</a> >> 送球機構模擬</div></section></div></body></html>
+<div class='container'><nav><ul id='css3menu1' class='topmenu'><div class="tipue_search_group"><input style="width: 6vw;" type="text" name="q" id="tipue_search_input" pattern=".{2,}" title="Press enter key to search" required></div><li><a href='Onshape 協同繪製.html'>Onshape 協同繪製</a><ul><li><a href='手足球台設計.html'>手足球台設計</a><li><a href='送球機構設計.html'>送球機構設計</a></li></ul><li><a href='V-rep 動態模擬.html'>V-rep 動態模擬</a><ul><li><a href='送球機構模擬.html'>送球機構模擬</a><li><a href='V-rep 程式.html'>V-rep 程式</a><ul><li><a href='送球機構.html'>送球機構</a><li><a href='人對人.html'>人對人</a></li></ul><li><a href='系統功能展示.html'>系統功能展示</a></li></ul><li><a href='期末報告.html'>期末報告</a></li></ul></nav><section><div id="tipue_search_content">V-rep 程式 << <a href='V-rep 程式.html'>Previous</a> <a href='人對人.html'>Next</a> >> 人對人<br /><h1>送球機構</h1>
+<p><img alt="" height="393" src="./../images/p37_17-03-03.png" width="800"/></p>
+<p><img alt="" height="383" src="./../images/p37_17-04-12.png" width="600"/></p>
+<pre class="brush:lua;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+    joint=sim.getObjectHandle('drive_1')
+    Sensor2=sim.getObjectHandle("1_sensor_1")
+    Sensor=sim.getObjectHandle("1_sensor_2")
+    speed=0
+    A=-1
+    B=-1
+    i=0
+    p=0
+end
+
+function sysCall_actuation()
+    result=sim.readProximitySensor(Sensor2)
+    if (result&gt;0) then A=sim.getSimulationTime()+4.6 end
+    if (A&lt;sim.getSimulationTime()) then
+        sim.setJointTargetVelocity(joint,speed)
+    else
+        sim.setJointTargetVelocity(joint,speed-1)
+    end
+    k=sim.readProximitySensor(Sensor)
+    if (k&gt;0) then 
+        p=p+0.1
+    else
+        p=0
+    end
+    if (p&gt;3) then p=0 end
+    if (p&gt;2.9) then
+        i=i+1
+sim.addStatusbarMessage('team A point:'..i)
+    end
+        
+
+end
+</pre>
+<p></p>
+<br />V-rep 程式 << <a href='V-rep 程式.html'>Previous</a> <a href='人對人.html'>Next</a> >> 人對人</div></section></div></body></html>
