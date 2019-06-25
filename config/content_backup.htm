@@ -22,7 +22,123 @@
 <p>PS: 剛開始在畫的時候，要抓到球的位置並不容易，於是參考老師的影片，將第二個抬球的零件改為撥桿，比要容易就能將球運上去。</p>
 <p>onshape繪製影片</p>
 <p><iframe allowfullscreen="allowfullscreen" data-mce-fragment="1" height="314" src="//www.youtube.com/embed/IPTHoy8oZS8" width="560"></iframe></p>
-<h1>V-rep 動態模擬</h1>
+<h1>V-rep 夾娃娃機</h1>
+<p></p>
+<p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/-ab6mh9hba4" width="560"></iframe></p>
+<p>在學校組裝vrep ，組裝好X、Y、Z、跟夾爪的軸。</p>
+<p>----</p>
+<p></p>
+<p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/5QY_dQaYIUQ" width="560"></iframe></p>
+<p>回家後嘗試裝球體的軸<a href="http://www.coppeliarobotics.com/helpFiles/en/jointDescription.htm">(<strong>Spherical joints</strong>)</a>，但是晃動得太嚴重，還會自轉，所以就先不裝了。</p>
+<p>後來有把球體的軸改成<strong>水平</strong>跟<strong>垂直</strong>軸，讓他不會自轉，但還是會晃，感覺比較真實，載重量上做了很多的調整，才讓他看起來比較正常。(忘了錄影QQ)</p>
+<p>-------------------------------------------------------------------------------------------------------</p>
+<p>之後想讓夾娃娃機比較像真實的，就想讓他在抓起來的時候，回到原點並把爪子張開，將物體放開，於是我加了以下的程式。</p>
+<pre class="brush:lua;auto-links:false;toolbar:false" contenteditable="false">---return
+    result=sim.readProximitySensor(Sensor)
+    if (result&gt;0) then A=sim.getSimulationTime() end
+    if (A &gt; 0) then
+        sliding_3 = sliding_3 +0.01
+        if (sliding_3 &gt;= 0) then sliding_x = sliding_x -0.01 end
+        if (sliding_x &lt;= -1.1) then sliding_2 = sliding_2 +0.01 end
+        if (sliding_2 &gt;= 1.3) then sliding_4 = -1 end
+    end
+    if (sliding_4 &lt;= -0.02) then A=-1 end
+---</pre>
+<p><strong>解釋:</strong>在爪子內放一個球柱的感測器，感測到夾子夾起來，Z軸先上升到頂點，換X軸移動到指定的位子，再換Y軸移動到原點，最後將爪子鬆開。</p>
+<p>程式最後一行是要讓 A 返回到 小於0 ， 不然就會無法控制其他軸。</p>
+<p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/l3OdoliEYaQ" width="560"></iframe></p>
+<p>功能展示 1</p>
+<p></p>
+<p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/Nmu5CSMjSlw" width="560"></iframe></p>
+<p>功能展示 2 (成功夾取物品)</p>
+<p><span>-------------------------------------------------------------------------------------------------------</span></p>
+<pre class="brush:lua;auto-links:false;toolbar:false" contenteditable="false">function sysCall_init()
+sliding_x = -1.1
+sliding_2 = 1.3
+sliding_3 = 0
+sliding_4 = -0.04
+
+A = 0
+
+Sensor=sim.getObjectHandle("sensor")
+X = sim.getObjectHandle('x_slider')
+Y = sim.getObjectHandle('y_slider')
+Z = sim.getObjectHandle('z_slider')
+C = sim.getObjectHandle('catch_slider')
+
+end
+
+
+function sysCall_actuation()
+sim.setJointTargetPosition(X,sliding_x)
+sim.setJointTargetPosition(Y,sliding_2)
+sim.setJointTargetPosition(Z,sliding_3)
+sim.setJointTargetPosition(C,sliding_4)
+---return
+    result=sim.readProximitySensor(Sensor)
+    if (result&gt;0) then A=sim.getSimulationTime() end
+    if (A &gt; 0) then
+        sliding_3 = sliding_3 +0.01
+        if (sliding_3 &gt;= 0) then sliding_x = sliding_x -0.01 end
+        if (sliding_x &lt;= -1.1) then sliding_2 = sliding_2 +0.01 end
+        if (sliding_2 &gt;= 1.3) then sliding_4 = -1 end
+    end
+    if (sliding_4 &lt;= -0.02) then A=-1 end
+---
+message,auxiliaryData=sim.getSimulatorMessage()
+        while message ~= -1 do
+key=auxiliaryData[1]
+sim.addStatusbarMessage('key:'..key)
+            if (message==sim.message_keypress) then
+--X_axis
+
+                if (auxiliaryData[1]==100) then --a
+                        -- 
+                    if (sliding_x &gt;= 1.2) then 
+                    else sliding_x = sliding_x + 0.02
+                    end
+                end
+                    
+                if (auxiliaryData[1]==97) then --d
+                        -- 
+                    if (sliding_x &lt;= -1.2) then 
+                    else sliding_x = sliding_x - 0.02
+                    end
+                end
+    ---axis y
+                if (auxiliaryData[1]==115) then --w
+                        -- 
+                    if (sliding_2 &gt;= 1.4) then 
+                    else sliding_2 = sliding_2 + 0.02
+                    end
+                end
+                if (auxiliaryData[1]==119) then --s
+                        -- 
+                    if (sliding_2 &lt;= -1.4) then 
+                    else sliding_2 = sliding_2 - 0.02
+                    end
+                end
+    ---axis z
+                if (auxiliaryData[1]==2007) then
+                    if (sliding_3 &gt;= 0.1) then 
+                    else sliding_3 = sliding_3 + 0.05
+                    end
+                end
+                if (auxiliaryData[1]==2008) then
+                    if (sliding_3 &lt;= -0.85) then 
+                    else sliding_3 = sliding_3 - 0.05
+                    end
+                end
+    ---catch
+                if (auxiliaryData[1]==32) then 
+                    sliding_4 = 1
+                end
+            end
+message,auxiliaryData=sim.getSimulatorMessage()
+        end
+end
+</pre>
+<p></p><h1>V-rep 動態模擬</h1>
 <h2>送球機構模擬</h2>
 <p><span style="color: #0000ff;"><strong>Vrep模擬 :</strong></span><span style="color: #000000;"><strong> </strong><strong> <a href="https://github.com/40623248/cd2019b-40623248/blob/gh-pages/downloads/lifter.ttt" style="color: #000000;">vrep檔案</a></strong></span></p>
 <p><span style="color: #000000;">加裝sensor : 當</span><span style="color: #000000;">球來的時候 ，機構才開使運行。</span><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/GR-1GkJjYLo" width="560"></iframe></p>
@@ -156,12 +272,15 @@ res,err=xpcall(threadFunction,function(err) return debug.traceback(err) end)
 if not res then
     sim.addStatusbarMessage('Lua runtime error: '..err)
 end</pre>
-<p></p><h2>系統功能展示</h2>
+<p></p>
+<h2>系統功能展示</h2>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/wkhAIW39eGQ" width="560"></iframe></p>
 <p>新增了2個vision sensor，當成玩家視角，使對打更加順利。</p>
 <p><img alt="" height="429" src="/images/p37_17-18-31.png" width="800"/></p>
 <p><img alt="" height="393" src="/images/p37_17-08-12.png" width="800"/></p>
 <h1>期末報告</h1>
+<p>40623248 廖柏誠結案口頭簡報</p>
+<p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/UJweGtyuj4M" width="560"></iframe></p>
 <p><span>評分比例：</span></p>
 <p><span>學員出席 (20%)：</span></p>
 <p><span>20%</span></p>
