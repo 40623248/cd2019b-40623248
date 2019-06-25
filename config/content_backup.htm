@@ -23,7 +23,7 @@
 <p>onshape繪製影片</p>
 <p><iframe allowfullscreen="allowfullscreen" data-mce-fragment="1" height="314" src="//www.youtube.com/embed/IPTHoy8oZS8" width="560"></iframe></p>
 <h1>V-rep 夾娃娃機</h1>
-<p></p>
+<p><a class="js-navigation-open" href="https://github.com/40623248/cd2019b-40623248/blob/gh-pages/downloads/Clip%20doll%20machine.ttt" id="aeb891538cd71f4b892f03d48c2e20ab-8fa6697b6ace934e784eb36890adc31c315f86ff" title="Clip doll machine.ttt">Clip doll machine.ttt</a></p>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/-ab6mh9hba4" width="560"></iframe></p>
 <p>在學校組裝vrep ，組裝好X、Y、Z、跟夾爪的軸。</p>
 <p>----</p>
@@ -119,18 +119,18 @@ sim.addStatusbarMessage('key:'..key)
                     end
                 end
     ---axis z
-                if (auxiliaryData[1]==2007) then
+                if (auxiliaryData[1]==2007) then --up
                     if (sliding_3 &gt;= 0.1) then 
                     else sliding_3 = sliding_3 + 0.05
                     end
                 end
-                if (auxiliaryData[1]==2008) then
+                if (auxiliaryData[1]==2008) then --down
                     if (sliding_3 &lt;= -0.85) then 
                     else sliding_3 = sliding_3 - 0.05
                     end
                 end
     ---catch
-                if (auxiliaryData[1]==32) then 
+                if (auxiliaryData[1]==32) then --space
                     sliding_4 = 1
                 end
             end
@@ -138,7 +138,7 @@ message,auxiliaryData=sim.getSimulatorMessage()
         end
 end
 </pre>
-<p></p><h1>V-rep 動態模擬</h1>
+<p><br/><br/></p><h1>V-rep 動態模擬</h1>
 <h2>送球機構模擬</h2>
 <p><span style="color: #0000ff;"><strong>Vrep模擬 :</strong></span><span style="color: #000000;"><strong> </strong><strong> <a href="https://github.com/40623248/cd2019b-40623248/blob/gh-pages/downloads/lifter.ttt" style="color: #000000;">vrep檔案</a></strong></span></p>
 <p><span style="color: #000000;">加裝sensor : 當</span><span style="color: #000000;">球來的時候 ，機構才開使運行。</span><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/GR-1GkJjYLo" width="560"></iframe></p>
