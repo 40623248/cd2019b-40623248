@@ -24,16 +24,17 @@
 <p><iframe allowfullscreen="allowfullscreen" data-mce-fragment="1" height="314" src="//www.youtube.com/embed/IPTHoy8oZS8" width="560"></iframe></p>
 <h1>V-rep 夾娃娃機</h1>
 <p><a href="https://cad.onshape.com/documents/3a8f68480c08daf4c0d27a59/w/5516aee67a7ee4f4703fe3dd/e/7531663e0b9d13ace3d0b49d">onshape</a></p>
-<p><a class="js-navigation-open" href="https://github.com/40623248/cd2019b-40623248/tree/gh-pages/downloads" id="aeb891538cd71f4b892f03d48c2e20ab-8fa6697b6ace934e784eb36890adc31c315f86ff" title="Clip doll machine.ttt">Clip doll machine.ttt</a></p>
+<p><a class="js-navigation-open" href="https://drive.google.com/file/d/1OTxRoul6CXKTHw0yRf0Sz5qhVaaG6MWr/view" id="aeb891538cd71f4b892f03d48c2e20ab-8fa6697b6ace934e784eb36890adc31c315f86ff" title="Clip doll machine.ttt">Clip doll machine.ttt</a></p>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/-ab6mh9hba4" width="560"></iframe></p>
-<p>在學校組裝vrep ，組裝好X、Y、Z、跟夾爪的軸。</p>
+<p>組裝好X、Y、Z、跟夾爪的軸，限制了軸的移動距離。</p>
 <p>----</p>
 <p></p>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/5QY_dQaYIUQ" width="560"></iframe></p>
-<p>回家後嘗試裝球體的軸<a href="http://www.coppeliarobotics.com/helpFiles/en/jointDescription.htm">(<strong>Spherical joints</strong>)</a>，但是晃動得太嚴重，還會自轉，所以就先不裝了。</p>
-<p>後來有把球體的軸改成<strong>水平</strong>跟<strong>垂直</strong>軸，讓他不會自轉，但還是會晃，感覺比較真實，載重量上做了很多的調整，才讓他看起來比較正常。(忘了錄影QQ)</p>
+<p></p>
+<p>嘗試裝球體的軸<a href="http://www.coppeliarobotics.com/helpFiles/en/jointDescription.htm">(<strong>Spherical joints</strong>)</a>，但是晃動得太嚴重，還會自轉，所以就先不裝了。</p>
+<p>後來把球體的軸改成<strong>水平</strong>跟<strong>垂直</strong>軸，讓他不會自轉，但還是會晃，感覺比較真實，在重量上做了很多的調整，才讓他看起來比較正常。(忘了錄影QQ)</p>
 <p>-------------------------------------------------------------------------------------------------------</p>
-<p>之後想讓夾娃娃機比較像真實的，就想讓他在抓起來的時候，回到原點並把爪子張開，將物體放開，於是我加了以下的程式。</p>
+<p>之後想讓夾娃娃機比較像外面的，就想讓他在抓起來的時候，回到原點並把爪子張開，將物體放下，於是我加了以下的程式。</p>
 <pre class="brush:lua;auto-links:false;toolbar:false" contenteditable="false">---return
     result=sim.readProximitySensor(Sensor)
     if (result&gt;0) then A=sim.getSimulationTime() end
